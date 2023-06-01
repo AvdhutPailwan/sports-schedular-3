@@ -528,7 +528,35 @@ video {
   --tw-backdrop-sepia: ;
 }
 
+.col-span-10 {
+  grid-column: span 10 / span 10;
+}
+
+.col-start-2 {
+  grid-column-start: 2;
+}
+
+.ml-10 {
+  margin-left: 2.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
 .bg-red-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+}
+
+.text-right {
+  text-align: right;
 }

@@ -1,0 +1,10 @@
+<% for( let i = 0; i < allSessions.length; i++ ) { %>
+  <a href="#">
+    <div class="flex">
+      <%= allSessions[i].time %>
+      <p class="text-right ml-10">
+        <%= ( allSessions[i].noOfPlayers - allSessions[i].players.length )%> slots available
+      </p> 
+    </div>
+  </a>
+<% } %>

@@ -10,6 +10,19 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    static async getAllSessions() {
+      return await this.findAll();
+    }
+
+    static async createSession({ time, place, players, noOfPlayers }) {
+      return this.create({
+        time,
+        place,
+        players: players.split(","),
+        noOfPlayers,
+      });
+    }
   }
   Session.init(
     {
