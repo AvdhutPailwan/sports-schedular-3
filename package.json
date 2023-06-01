@@ -6,6 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "prettier --write ."
+    ]
+  },
   "author": "Avdhut Pailwan <avdhutpailwan@gmail.com>",
   "license": "ISC",
   "dependencies": {
@@ -14,6 +20,9 @@
     "sequelize": "^6.32.0"
   },
   "devDependencies": {
+    "eslint": "^8.41.0",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
     "sequelize-cli": "^6.6.0"
   }
 }
