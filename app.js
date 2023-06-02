@@ -38,11 +38,11 @@ app.post("/sportSession", async (req, res) => {
       players: req.body.players,
       noOfPlayers: req.body.noOfPlayers,
     });
-    if (req.accepts("html")) {
-      res.redirect("/sportSession");
-    } else {
-      res.json(session);
-    }
+    // if (req.accepts("html")) {
+    // res.redirect("/sportSession");
+    // } else {
+    res.json(session);
+    // }
   } catch (err) {
     console.error(err);
     res.status(422).json(err);
@@ -52,11 +52,11 @@ app.post("/sportSession", async (req, res) => {
 app.delete("/sportSession/:id", async (req, res) => {
   try {
     await Session.deleteSession(req.params.id);
-    if (req.accepts("html")) {
-      res.redirect("/sportSession");
-    } else {
-      res.send(req.params.id);
-    }
+    // if (req.accepts("html")) {
+    // res.redirect("/sportSession");
+    // } else {
+    res.json(req.params.id);
+    // }
   } catch (err) {
     console.error(err);
     res.status(422).json(err);
