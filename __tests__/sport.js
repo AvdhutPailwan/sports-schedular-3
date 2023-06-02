@@ -38,7 +38,7 @@ describe("Session test suite", () => {
       players: "A,B,C,D",
       noOfPlayers: 12,
     });
-    console.log(response);
+    // console.log(response);
     expect(response.status).toBe(200);
     expect(response.header["content-type"]).toBe(
       "application/json; charset=utf-8"
@@ -48,8 +48,8 @@ describe("Session test suite", () => {
     expect(parsedResponse.id).toBeDefined();
 
     const id = parsedResponse.id.toString();
-    const delResponse = await agent.delete("/sportSession/" + id);
-    // console.log(delResponse)
+    const delResponse = await agent.delete("/sportSession").send({ id });
+    console.log(delResponse.body);
     expect(delResponse.status).toBe(200);
     expect(response.header["content-type"]).toBe(
       "application/json; charset=utf-8"
