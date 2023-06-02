@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 app.get("/sportSession", async (req, res) => {
   const allSessions = await Session.getAllSessions();
 
-  console.log(allSessions);
+  // console.log(allSessions);
   if (req.accepts("html")) {
     res.render("index", {
       allSessions,
@@ -32,11 +32,50 @@ app.get("/sportSession", async (req, res) => {
 
 app.post("/sportSession", async (req, res) => {
   try {
-    await Session.createSession(req.body);
-    res.redirect("/sportSession");
+    const session = await Session.createSession({
+      time: req.body.time,
+      place: req.body.place,
+      players: req.body.players,
+      noOfPlayers: req.body.noOfPlayers,
+    });
+    if (req.accepts("html")) {
+      res.redirect("/sportSession");
+    } else {
+      res.json(session);
+    }
   } catch (err) {
     console.error(err);
-    res.status(402).json(err);
+    res.status(422).json(err);
+  }
+});
+
+app.delete("/sportSession/:id", async (req, res) => {
+  try {
+    await Session.deleteSession(req.params.id);
+    if (req.accepts("html")) {
+      res.redirect("/sportSession");
+    } else {
+      res.send(req.params.id);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(422).json(err);
+  }
+});
+
+app.get("/details/:id", async (req, res) => {
+  const details = await Session.findByPk(req.params.id);
+  try {
+    if (req.accepts("html")) {
+      res.render("sessionDetails", {
+        details,
+      });
+    } else {
+      res.json(details);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(422).json(err);
   }
 });
 

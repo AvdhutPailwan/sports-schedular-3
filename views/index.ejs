@@ -10,7 +10,7 @@
 <body>
   <div class="grid grid-cols-12">
     <div class="col-start-2 col-span-10">
-      <%- include('listSessions') %>
+      <%- include('listSessions', {title: "Created By You", data:allSessions}) %>
     </div>
   </div>
 </body>

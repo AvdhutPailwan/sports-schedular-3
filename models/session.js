@@ -23,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
         noOfPlayers,
       });
     }
+
+    static async deleteSession(id) {
+      return await this.destroy({
+        where: {
+          id,
+        },
+      });
+    }
   }
   Session.init(
     {

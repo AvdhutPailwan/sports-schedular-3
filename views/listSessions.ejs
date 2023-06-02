@@ -1,10 +1,12 @@
-<% for( let i = 0; i < allSessions.length; i++ ) { %>
-  <a href="#">
+<h3><%= title %></h3>
+<% for( let i = 0; i < data.length; i++ ) { %>
+  <a href="/details/<%= data[i].id %>">
     <div class="flex">
-      <%= allSessions[i].time %>
+      <%= data[i].time %>
       <p class="text-right ml-10">
-        <%= ( allSessions[i].noOfPlayers - allSessions[i].players.length )%> slots available
+        <%= ( data[i].noOfPlayers - data[i].players.length )%> slots available
       </p> 
     </div>
   </a>
 <% } %>
+<hr>
