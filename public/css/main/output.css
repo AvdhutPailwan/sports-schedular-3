@@ -536,21 +536,8 @@ video {
   grid-column-start: 2;
 }
 
-.mx-5 {
-  margin-left: 1.25rem;
-  margin-right: 1.25rem;
-}
-
 .ml-10 {
   margin-left: 2.5rem;
-}
-
-.inline-block {
-  display: inline-block;
-}
-
-.inline {
-  display: inline;
 }
 
 .flex {
@@ -563,28 +550,6 @@ video {
 
 .grid-cols-12 {
   grid-template-columns: repeat(12, minmax(0, 1fr));
-}
-
-.gap-5 {
-  gap: 1.25rem;
-}
-
-.gap-8 {
-  gap: 2rem;
-}
-
-.gap-10 {
-  gap: 2.5rem;
-}
-
-.gap-x-8 {
-  -moz-column-gap: 2rem;
-  column-gap: 2rem;
-}
-
-.px-56 {
-  padding-left: 14rem;
-  padding-right: 14rem;
 }
 
 .text-right {
