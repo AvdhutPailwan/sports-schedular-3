@@ -9,7 +9,7 @@
     "start:tailwind": "npx tailwindcss -i ./public/css/input.css -o ./public/css/main/output.css --watch",
     "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
     "test": "NODE_ENV=test jest --detectOpenHandles",
-    "prepare": "husky install"
+    "prepare": "cd . && husky install ./.husky"
   },
   "lint-staged": {
     "*.js": [
