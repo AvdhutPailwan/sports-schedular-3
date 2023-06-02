@@ -49,13 +49,13 @@ app.post("/sportSession", async (req, res) => {
   }
 });
 
-app.delete("/sportSession/:id", async (req, res) => {
+app.delete("/sportSession", async (req, res) => {
   try {
-    await Session.deleteSession(req.params.id);
+    await Session.deleteSession(req.body.id);
     // if (req.accepts("html")) {
     // res.redirect("/sportSession");
     // } else {
-    res.json(req.params.id);
+    res.json(req.body.id);
     // }
   } catch (err) {
     console.error(err);
