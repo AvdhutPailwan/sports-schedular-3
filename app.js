@@ -3,6 +3,7 @@ const app = express();
 const { Session } = require("./models");
 const path = require("path");
 const bodyParser = require("body-parser");
+const moment = require("moment");
 
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
@@ -114,4 +115,45 @@ app.put("/details/:playername/:id", async (req, res) => {
   }
 });
 
+// edit session
+app.get("/sportSession/:id/edit", async (req, res) => {
+  const sessionDetails = await Session.findByPk(req.params.id);
+  try {
+    res.render("editSession", {
+      sessionDetails,
+      time: moment(sessionDetails.time).format("YYYY-MM-DDTHH:mm"),
+    });
+  } catch (err) {
+    console.error(err);
+    res.statusCode(422).json(err);
+  }
+});
+
+app.post("/sportSession/:id/update", async (req, res) => {
+  // const session = await Session.findByPk(req.params.id)
+  // session.time = req.body.time;
+  // session.place = req.body.place;
+  // session.players = req.body.players.split(",");
+  // session.noOfPlayers = req.body.noOfPlayers;
+  console.log("update the session with id : ", req.params.id);
+  try {
+    await Session.update(
+      {
+        time: req.body.time,
+        place: req.body.place,
+        players: req.body.players.split(","),
+        noOfPlayers: req.body.noOfPlayers,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+    res.redirect(`/details/${req.params.id}`);
+  } catch (err) {
+    console.error(err);
+    res.status(422).json(err);
+  }
+});
 module.exports = app;

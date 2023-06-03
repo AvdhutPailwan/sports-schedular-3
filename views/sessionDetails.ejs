@@ -81,7 +81,7 @@
           <p class="font-bold">Empty slots: <%= details.noOfPlayers - details.players.length %>
           </p>
         </div>
-        <a href="#" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Edit
+        <a href="/sportSession/<%= details.id %>/edit" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Edit
           Session</a>
         <a href="/sportSession" onclick="return cancelSession(<%= details.id %>)"
           class="inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Cancel Session</a>
