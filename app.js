@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 // eslint-disable-next-line no-undef
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -15,6 +16,7 @@ app.get("/", (req, res) => {
   res.redirect("/sportSession");
 });
 
+// list all sport session
 app.get("/sportSession", async (req, res) => {
   console.log("Display the list of sessions");
   const allSessions = await Session.getAllSessions();
@@ -31,6 +33,10 @@ app.get("/sportSession", async (req, res) => {
   }
 });
 
+// create session
+app.get("/createSession", (req, res) => {
+  res.render("createSession");
+});
 app.post("/sportSession", async (req, res) => {
   console.log("Create session : ", req.body);
   try {
@@ -40,17 +46,18 @@ app.post("/sportSession", async (req, res) => {
       players: req.body.players,
       noOfPlayers: req.body.noOfPlayers,
     });
-    // if (req.accepts("html")) {
-    // res.redirect("/sportSession");
-    // } else {
-    res.json(session);
-    // }
+    if (req.accepts("html")) {
+      res.redirect("/sportSession");
+    } else {
+      res.json(session);
+    }
   } catch (err) {
     console.error(err);
     res.status(422).json(err);
   }
 });
 
+// remove session
 app.delete("/sportSession", async (req, res) => {
   console.log("delete session with id : ", req.body.id);
   try {
@@ -66,6 +73,7 @@ app.delete("/sportSession", async (req, res) => {
   }
 });
 
+// single session
 app.get("/details/:id", async (req, res) => {
   console.log("Display session with id : ", req.params.id);
   const details = await Session.findByPk(req.params.id);
@@ -83,6 +91,7 @@ app.get("/details/:id", async (req, res) => {
   }
 });
 
+// remove player
 app.put("/details/:playername/:id", async (req, res) => {
   console.log("removing player : ", req.params.playername);
   const sessions = await Session.findByPk(req.params.id);

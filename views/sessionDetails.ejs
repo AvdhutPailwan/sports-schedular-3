@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sports Schedular</title>
+  <title>Session Details</title>
   <link rel="stylesheet" href="/css/main/output.css">
   <script>
     function removeplayer(playername, id) {
@@ -33,7 +33,7 @@
       })
         .then((res) => {
           if (res.ok) {
-            window.location.reload();
+            return true;
           }
         })
         .catch((error) => console.log(error));

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Session</title>
+  <link rel="stylesheet" href="./css/main/output.css">
+</head>
+<body>
+  <%- include('header', {route: "", content:"sign out"}) %>
+  <div class="grid grid-cols-12">
+    <div class="col-start-3 col-span-8">
+      <form action="/sportSession" method="POST" class="space-y-4">
+      <div>
+        <label for="time" class="block font-medium">Date and time:</label>
+        <input type="datetime-local" id="time" name="time" class="block rounded-md border-black border px-4 py-2">
+      </div>
+      <div>
+        <label for="place" class="block font-medium">Address:</label>
+        <textarea id="place" name="place" rows="3" class="block rounded-md border-black border px-4 py-2"></textarea>
+      </div>
+      <div>
+        <label for="players" class="block font-medium">Players:</label>
+        <input type="text" id="players" name="players" class="block w-full  rounded-md border-black border px-4 py-2">
+      </div>
+      <div>
+        <label for="noOfPlayers" class="block font-medium">Number of Players:</label>
+        <input type="number" id="noOfPlayers" name="noOfPlayers" class="block rounded-md border-black border  px-4 py-2">
+      </div>
+      <div>
+        <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-md">Submit</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</body>
+</html>

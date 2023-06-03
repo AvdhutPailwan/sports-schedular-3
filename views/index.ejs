@@ -11,9 +11,11 @@
   <%- include('header', {route: "", content:"sign out"}) %>
   <div class="grid grid-cols-12">
     <div class="col-start-2 col-span-10">
-      <%- include('listSessions', {title: "Created By You", data:allSessions}) %>
-      <%- include('listSessions', {title: "Other Sessions", data:allSessions}) %>
+      <%- include('listSessions', {title: "Created By You", data:allSessions}) %><hr class="my-4">
+      <%- include('listSessions', {title: "Other Sessions", data:allSessions}) %><hr class="my-4">
       <%- include('listSessions', {title: "Joined Sessions", data:allSessions}) %>
+
+      <a href="/createSession" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Create Session</a>
     </div>
   </div>
 </body>
