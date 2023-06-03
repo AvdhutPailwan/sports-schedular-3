@@ -16,12 +16,15 @@ describe("Session test suite", () => {
     server.close();
   });
   test("responds with json at /sportSession", async () => {
-    const response = await agent.post("/sportSession").send({
-      time: new Date().toISOString(),
-      place: "Admin Backyard",
-      players: "A,B,C,D",
-      noOfPlayers: 12,
-    });
+    const response = await agent
+      .post("/sportSession")
+      .send({
+        time: new Date().toISOString(),
+        place: "Admin Backyard",
+        players: "A,B,C,D",
+        noOfPlayers: 12,
+      })
+      .set("Accept", "application/json");
     // console.log(response)
     expect(response.status).toBe(200);
     expect(response.header["content-type"]).toBe(
@@ -32,12 +35,15 @@ describe("Session test suite", () => {
     expect(parsedResponse.id).toBeDefined();
   });
   test("responds with id on /sportSession/:id", async () => {
-    const response = await agent.post("/sportSession").send({
-      time: new Date().toISOString(),
-      place: "Admin Backyard",
-      players: "A,B,C,D",
-      noOfPlayers: 12,
-    });
+    const response = await agent
+      .post("/sportSession")
+      .send({
+        time: new Date().toISOString(),
+        place: "Admin Backyard",
+        players: "A,B,C,D",
+        noOfPlayers: 12,
+      })
+      .set("Accept", "application/json");
     // console.log(response);
     expect(response.status).toBe(200);
     expect(response.header["content-type"]).toBe(
@@ -48,7 +54,10 @@ describe("Session test suite", () => {
     expect(parsedResponse.id).toBeDefined();
 
     const id = parsedResponse.id.toString();
-    const delResponse = await agent.delete("/sportSession").send({ id });
+    const delResponse = await agent
+      .delete("/sportSession")
+      .send({ id })
+      .set("Accept", "application/json");
     console.log(delResponse.body);
     expect(delResponse.status).toBe(200);
     expect(response.header["content-type"]).toBe(
