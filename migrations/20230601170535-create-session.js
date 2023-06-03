@@ -24,6 +24,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      cancelled: {
+        type: Sequelize.BOOLEAN,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

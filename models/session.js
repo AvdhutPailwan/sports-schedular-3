@@ -12,7 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async getAllSessions() {
-      return await this.findAll();
+      return await this.findAll({
+        where: {
+          cancelled: false,
+        },
+      });
     }
 
     static async createSession({ time, place, players, noOfPlayers }) {
@@ -21,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         place,
         players: players.split(","),
         noOfPlayers,
+        cancelled: false,
       });
     }
 
@@ -55,6 +60,7 @@ module.exports = (sequelize, DataTypes) => {
       place: DataTypes.STRING,
       players: DataTypes.ARRAY(DataTypes.STRING),
       noOfPlayers: DataTypes.INTEGER,
+      cancelled: DataTypes.BOOLEAN,
     },
     {
       sequelize,

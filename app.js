@@ -74,6 +74,24 @@ app.delete("/sportSession", async (req, res) => {
   }
 });
 
+app.put("/sportSession", async (req, res) => {
+  console.log("update status to cancelled of session id : ", req.body.id);
+  try {
+    await Session.update(
+      { cancelled: true },
+      {
+        where: {
+          id: req.body.id,
+        },
+      }
+    );
+    res.json(req.body.id);
+  } catch (err) {
+    console.error(err);
+    res.status(422).json(err);
+  }
+});
+
 // single session
 app.get("/details/:id", async (req, res) => {
   console.log("Display session with id : ", req.params.id);

@@ -25,7 +25,7 @@
     }
     function cancelSession(id) {
       fetch("/sportSession", {
-        method: 'DELETE',
+        method: 'PUT',
         headers: { "content-type": 'application/json' },
         body: JSON.stringify({
           id: id,
