@@ -1,12 +1,16 @@
-<h3><%= title %></h3>
-<% for( let i = 0; i < data.length; i++ ) { %>
-  <a href="/details/<%= data[i].id %>">
-    <div class="flex">
-      <%= data[i].time %>
-      <p class="text-right ml-10">
-        <%= ( data[i].noOfPlayers - data[i].players.length )%> slots available
-      </p> 
+<h3 class="text-xl font-bold mb-4"><%= title %></h3>
+<% for (let i = 0; i < data.length; i++) { %>
+  <a href="/details/<%= data[i].id %>" class="block mb-4 p-4 bg-white shadow rounded-lg">
+    <div class="flex items-center justify-between">
+      <span class="text-lg font-bold"><%= data[i].time %></span>
+      <p class="text-right ml-4 text-sm text-gray-600">
+        <% if (data[i].noOfPlayers - data[i].players.length) { %>
+          <span class="text-green-500"><%= (data[i].noOfPlayers - data[i].players.length) %> slots available</span>
+        <% } else { %>
+            <span class="text-red-500">no slots available!</span>
+        <% } %>         
+      </p>
     </div>
   </a>
 <% } %>
-<hr>
+<hr class="my-4">

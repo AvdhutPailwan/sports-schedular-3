@@ -6,8 +6,23 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sports Schedular</title>
-  <link rel="stylesheet" href="./css/main/output.css">
+  <link rel="stylesheet" href="/css/main/output.css">
   <script>
+    function removeplayer(playername, id) {
+      fetch(`/details/${playername}/${id}`, {
+        method: 'PUT',
+        headers: { "content-type": 'application/json' },
+        body: JSON.stringify({
+        //   '_csrf': token
+        })
+      })
+        .then((res) => {
+          if (res.ok) {
+            window.location.reload();
+          }
+        })
+        .catch((error) => console.log(error));
+    }
     function cancelSession(id) {
       fetch("/sportSession", {
         method: 'DELETE',
@@ -16,40 +31,63 @@
           id: id,
         })
       })
+        .then((res) => {
+          if (res.ok) {
+            window.location.reload();
+          }
+        })
+        .catch((error) => console.log(error));
     }
   </script>
 </head>
 
 <body>
-  <div class="grid grid-cols-12">
-    <div class="col-start-2 col-span-10">
-      <h2>Session #<%= details.id %>
-      </h2>
-      <div>
-        <p>Date & time :</p>
-        <%= details.time %>
-      </div>
-      <div>
-        <p>Address :</p>
-        <%= details.place %>
-      </div>
-      <div>
-        <h3>Players :</h3>
-        <div class="flex">
-          <% for( let i=0; i < details.players.length; i++ ) { %>
-            <%= details.players[i] %>
-              <% } %>
+  <%- include('header', {route: "" , content:"sign out"}) %>
+    <div class="grid grid-cols-12">
+      <div class="col-start-2 col-span-10">
+        <h2 class="text-2xl font-bold mb-4">Session #<%= details.id %>
+        </h2>
+        <div class="mb-4">
+          <p class="font-bold">Date & time:</p>
+          <p>
+            <%= details.time %>
+          </p>
         </div>
+        <div class="mb-4">
+          <p class="font-bold">Address:</p>
+          <p>
+            <%= details.place %>
+          </p>
+        </div>
+        <div class="mb-4">
+          <h3 class="font-bold mb-2">Players:</h3>
+          <div class="flex">
+            <% for (let i=0; i < details.players.length; i++) { %>
+              <div class="flex items-center mr-2 bg-gray-200 p-2 rounded">
+                <span>
+                  <%= details.players[i] %>
+                </span>
+                <a href="#" onclick="removeplayer('<%= details.players[i] %>', <%= details.id %> )">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6 ml-2 cursor-pointer">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </a>
+              </div>
+              <% } %>
+          </div>
+        </div>
+        <div class="mb-4">
+          <p class="font-bold">Empty slots: <%= details.noOfPlayers - details.players.length %>
+          </p>
+        </div>
+        <a href="#" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Edit
+          Session</a>
+        <a href="/sportSession" onclick="return cancelSession(<%= details.id %>)"
+          class="inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Cancel Session</a>
       </div>
-      <div>
-        <p>Empty slots : <%= details.noOfPlayers - details.players.length%>
-        </p>
-      </div>
-      <a href="#"><span>Edit Session</span></a>
-      <a href="/sportSession" onclick="return cancelSession(<%= details.id %>)"><span>Cancel Session</span></a>
-
     </div>
-  </div>
+
 </body>
 
 </html>

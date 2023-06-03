@@ -31,6 +31,23 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
+
+    static async removePlayer(playername, id) {
+      const sessions = await Session.findByPk(id);
+      var index = sessions.players.indexOf(playername);
+      sessions.players.splice(index, 1);
+      //console.log(player,sessions.playername)
+      return this.update(
+        {
+          players: sessions.players,
+        },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+    }
   }
   Session.init(
     {

@@ -16,6 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/sportSession", async (req, res) => {
+  console.log("Display the list of sessions");
   const allSessions = await Session.getAllSessions();
 
   // console.log(allSessions);
@@ -31,6 +32,7 @@ app.get("/sportSession", async (req, res) => {
 });
 
 app.post("/sportSession", async (req, res) => {
+  console.log("Create session : ", req.body);
   try {
     const session = await Session.createSession({
       time: req.body.time,
@@ -50,6 +52,7 @@ app.post("/sportSession", async (req, res) => {
 });
 
 app.delete("/sportSession", async (req, res) => {
+  console.log("delete session with id : ", req.body.id);
   try {
     await Session.deleteSession(req.body.id);
     // if (req.accepts("html")) {
@@ -64,6 +67,7 @@ app.delete("/sportSession", async (req, res) => {
 });
 
 app.get("/details/:id", async (req, res) => {
+  console.log("Display session with id : ", req.params.id);
   const details = await Session.findByPk(req.params.id);
   try {
     if (req.accepts("html")) {
@@ -73,6 +77,28 @@ app.get("/details/:id", async (req, res) => {
     } else {
       res.json(details);
     }
+  } catch (err) {
+    console.error(err);
+    res.status(422).json(err);
+  }
+});
+
+app.put("/details/:playername/:id", async (req, res) => {
+  console.log("removing player : ", req.params.playername);
+  const sessions = await Session.findByPk(req.params.id);
+  console.log(sessions);
+  try {
+    const updatedplayer = await Session.removePlayer(
+      req.params.playername,
+      req.params.id
+    );
+    // if (
+    // req.user.sessionId.includes(sessions.id) &&
+    // req.user.fname == req.params.playername
+    // ) {
+    // await user.removeSessionId(sessions.id, req.user.id);
+    // }
+    return res.json(updatedplayer);
   } catch (err) {
     console.error(err);
     res.status(422).json(err);
