@@ -20,14 +20,17 @@
   "author": "Avdhut Pailwan <avdhutpailwan@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "moment": "^2.29.4",
     "pg": "^8.11.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.32.0"
+    "sequelize": "^6.32.0",
+    "tiny-csrf": "^1.1.3"
   },
   "devDependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "eslint": "^8.41.0",
     "husky": "^8.0.0",
     "jest": "^29.5.0",

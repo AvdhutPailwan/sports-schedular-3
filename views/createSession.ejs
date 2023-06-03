@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-token" content="<%= csrfToken %>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Session</title>
   <link rel="stylesheet" href="./css/main/output.css">
@@ -12,6 +13,7 @@
   <div class="grid grid-cols-12">
     <div class="col-start-3 col-span-8">
       <form action="/sportSession" method="POST" class="space-y-4">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div>
         <label for="time" class="block font-medium">Date and time:</label>
         <input type="datetime-local" id="time" name="time" class="block rounded-md border-black border px-4 py-2">

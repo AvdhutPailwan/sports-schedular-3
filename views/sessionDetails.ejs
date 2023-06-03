@@ -4,16 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-token" content="<%= csrfToken %>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Session Details</title>
   <link rel="stylesheet" href="/css/main/output.css">
   <script>
+    var token = document
+                      .querySelector('meta[name = "csrf-token"]')
+                      .getAttribute('content');
     function removeplayer(playername, id) {
       fetch(`/details/${playername}/${id}`, {
         method: 'PUT',
         headers: { "content-type": 'application/json' },
         body: JSON.stringify({
-        //   '_csrf': token
+          '_csrf': token
         })
       })
         .then((res) => {
@@ -29,6 +33,7 @@
         headers: { "content-type": 'application/json' },
         body: JSON.stringify({
           id: id,
+          '_csrf': token
         })
       })
         .then((res) => {

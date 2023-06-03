@@ -4,11 +4,27 @@ const { Session } = require("./models");
 const path = require("path");
 const bodyParser = require("body-parser");
 const moment = require("moment");
+const csrf = require("tiny-csrf");
+const cookieParser = require("cookie-parser");
+// const session = require("express-session")
 
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser("shh! some secreat string"));
+// app.use(session({ secret: "keyboard cat" }));
+// order matters: above three must come first
+app.use(
+  csrf(
+    // "123456789iamasecret987654321look", // secret -- must be 32 bits or chars in length
+    // ["POST"], // the request methods we want CSRF protection for
+    // ["/detail", /\/detail\.*/i], // any URLs we want to exclude, either as strings or regexp
+    // [process.env.SITE_URL + "/service-worker.js"]  // any requests from here will not see the token and will not generate a new one
+    "this_should_be_32_character_long",
+    ["POST", "PUT", "DELETE"]
+  )
+);
 // eslint-disable-next-line no-undef
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -26,6 +42,7 @@ app.get("/sportSession", async (req, res) => {
   if (req.accepts("html")) {
     res.render("index", {
       allSessions,
+      csrfToken: req.csrfToken(),
     });
   } else {
     res.json({
@@ -36,7 +53,9 @@ app.get("/sportSession", async (req, res) => {
 
 // create session
 app.get("/createSession", (req, res) => {
-  res.render("createSession");
+  res.render("createSession", {
+    csrfToken: req.csrfToken(),
+  });
 });
 app.post("/sportSession", async (req, res) => {
   console.log("Create session : ", req.body);
@@ -100,6 +119,7 @@ app.get("/details/:id", async (req, res) => {
     if (req.accepts("html")) {
       res.render("sessionDetails", {
         details,
+        csrfToken: req.csrfToken(),
       });
     } else {
       res.json(details);
@@ -140,6 +160,7 @@ app.get("/sportSession/:id/edit", async (req, res) => {
     res.render("editSession", {
       sessionDetails,
       time: moment(sessionDetails.time).format("YYYY-MM-DDTHH:mm"),
+      csrfToken: req.csrfToken(),
     });
   } catch (err) {
     console.error(err);
