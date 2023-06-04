@@ -1,0 +1,38 @@
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sports Schedular</title>
+  <link rel="stylesheet" href="/css/main/output.css">
+</head>
+<body>
+  <%- include('header', {route: "", content:"sign out"}) %>
+  <div class="grid grid-cols-12">
+    <div class="col-start-2 col-span-10">
+      <div class="flex items-center">
+        <a href="/" class="mr-2">Home</a>
+        <span class="mr-2">></span>
+        <a href="/sportSession/<%= sport.id %>" class="mr-2"><%= sport.sportName %></a>
+        <span class="mr-2">></span>
+        <a href="/editSport/<%= sport.id %>" class="mr-2">Edit Sport</a>
+      </div>
+      <div class="flex justify-center">
+        <div class="w-2/8">
+          <form action="/editSport/<%= sport.id %>" method="POST" class=" mt-20 space-y-4">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div>
+              <div class="flex justify-center"><label for="sportName" class="block text-4xl my-3  font-medium">Sport Name</label></div>
+              <div><input type="text" id="sportName" name="sportName" class="block rounded-md border-black border px-4 py-2" value="<%= sport.sportName %>"></div>
+            </div>
+            <div class="flex justify-center">
+              <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-md">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</body>
+</html>

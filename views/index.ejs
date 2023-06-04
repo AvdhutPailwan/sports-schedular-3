@@ -12,12 +12,23 @@
   <%- include('header', {route: "", content:"sign out"}) %>
   <div class="grid grid-cols-12">
     <div class="col-start-2 col-span-10">
-      <%- include('listSessions', {title: "Created By You", data:allSessions}) %><hr class="my-4">
-      <%- include('listSessions', {title: "Other Sessions", data:allSessions}) %><hr class="my-4">
-      <%- include('listSessions', {title: "Joined Sessions", data:allSessions}) %>
-
-      <a href="/createSession" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Create Session</a>
-      <a href="/#" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Previous Sessions</a>
+      <div class="flex items-center">
+        <a href="/" class="mr-2">Home</a>
+        <span class="mr-2">></span>
+        <!-- <a href="/sport" class="mr-2">Sport</a>
+        <span class="mr-2">></span>
+        <a href="/sport/session">Session</a> -->
+      </div>
+      <div class="flex flex-wrap">
+        <% for( let i = 0; i < listSports.length; i++ ) { %>
+          <div class="p-2">
+            <a href="/sportSession/<%= listSports[i].id %>" class="block bg-gray-200 rounded-lg p-4">
+              <h3 class="text-lg font-semibold"><%= listSports[i].sportName %></h3>
+            </a>
+          </div>
+        <% } %>
+      </div>
+      <a href="/createSport" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Create Sport</a>
     </div>
   </div>
 </body>

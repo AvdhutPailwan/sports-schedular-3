@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const { Session } = require("./models");
+const { Session, Sport } = require("./models");
 const path = require("path");
 const bodyParser = require("body-parser");
 const moment = require("moment");
@@ -29,35 +29,45 @@ app.use(
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-  res.redirect("/sportSession");
+app.get("/", async (req, res) => {
+  const listSports = await Sport.findAll();
+  res.render("index", {
+    listSports,
+    csrfToken: req.csrfToken,
+  });
 });
 
 // list all sport session
-app.get("/sportSession", async (req, res) => {
+app.get("/sportSession/:sportId", async (req, res) => {
   console.log("Display the list of sessions");
-  const allSessions = await Session.getAllSessions();
-
+  const sport = await Sport.findByPk(req.params.sportId);
+  const allSessions = await Session.getAllSessions(req.params.sportId);
+  // console.log(sport);
   // console.log(allSessions);
   if (req.accepts("html")) {
-    res.render("index", {
+    res.render("sportSessions", {
       allSessions,
+      sport,
       csrfToken: req.csrfToken(),
     });
   } else {
     res.json({
       allSessions,
+      sport,
     });
   }
 });
 
 // create session
-app.get("/createSession", (req, res) => {
+app.get("/createSession/:sportId", async (req, res) => {
+  const sport = await Sport.findByPk(req.params.sportId);
+  console.log(sport);
   res.render("createSession", {
+    sport,
     csrfToken: req.csrfToken(),
   });
 });
-app.post("/sportSession", async (req, res) => {
+app.post("/sportSession/:sportId", async (req, res) => {
   console.log("Create session : ", req.body);
   try {
     const session = await Session.createSession({
@@ -65,9 +75,10 @@ app.post("/sportSession", async (req, res) => {
       place: req.body.place,
       players: req.body.players,
       noOfPlayers: req.body.noOfPlayers,
+      sportId: req.params.sportId,
     });
     if (req.accepts("html")) {
-      res.redirect("/sportSession");
+      res.redirect(`/sportSession/${req.params.sportId}`);
     } else {
       res.json(session);
     }
@@ -115,9 +126,11 @@ app.put("/sportSession", async (req, res) => {
 app.get("/details/:id", async (req, res) => {
   console.log("Display session with id : ", req.params.id);
   const details = await Session.findByPk(req.params.id);
+  const sport = await Sport.findByPk(details.sportId);
   try {
     if (req.accepts("html")) {
       res.render("sessionDetails", {
+        sport,
         details,
         csrfToken: req.csrfToken(),
       });
@@ -190,6 +203,81 @@ app.post("/sportSession/:id/update", async (req, res) => {
       }
     );
     res.redirect(`/details/${req.params.id}`);
+  } catch (err) {
+    console.error(err);
+    res.status(422).json(err);
+  }
+});
+
+// create sport
+app.get("/createSport", async (req, res) => {
+  try {
+    res.render("createSport", {
+      csrfToken: req.csrfToken(),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(422).json(err);
+  }
+});
+
+app.post("/createSport", async (req, res) => {
+  console.log("creating sport : ", req.body.sportName);
+  try {
+    const object = await Sport.create({
+      sportName: req.body.sportName,
+    });
+    console.log(object);
+    res.redirect(`/sportSession/${object.dataValues.id}`);
+  } catch (err) {
+    console.error(err);
+    res.status(422).json(err);
+  }
+});
+
+// edit sport
+
+app.get("/editSport/:sportId", async (req, res) => {
+  const sport = await Sport.findByPk(req.params.sportId);
+  res.render("editSport", {
+    sport,
+    csrfToken: req.csrfToken(),
+  });
+});
+
+app.post("/editSport/:sportId", async (req, res) => {
+  try {
+    await Sport.update(
+      { sportName: req.body.sportName },
+      {
+        where: {
+          id: req.params.sportId,
+        },
+      }
+    );
+    res.redirect(`/sportSession/${req.params.sportId}`);
+  } catch (err) {
+    console.error(err);
+    res.status(422).json(err);
+  }
+});
+
+// delete sport
+app.delete("/deleteSport/:sportId", async (req, res) => {
+  try {
+    await Session.destroy({
+      where: {
+        sportId: req.params.sportId,
+      },
+    });
+
+    await Sport.destroy({
+      where: {
+        id: req.params.sportId,
+      },
+    });
+
+    res.json({ success: true });
   } catch (err) {
     console.error(err);
     res.status(422).json(err);

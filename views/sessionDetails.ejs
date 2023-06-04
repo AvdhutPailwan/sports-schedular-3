@@ -27,7 +27,7 @@
         })
         .catch((error) => console.log(error));
     }
-    function cancelSession(id) {
+    function cancelSession(id, sportId) {
       fetch("/sportSession", {
         method: 'PUT',
         headers: { "content-type": 'application/json' },
@@ -38,7 +38,7 @@
       })
         .then((res) => {
           if (res.ok) {
-            return true;
+            window.location.href = `/sportSession/${sportId}`;
           }
         })
         .catch((error) => console.log(error));
@@ -50,7 +50,14 @@
   <%- include('header', {route: "" , content:"sign out"}) %>
     <div class="grid grid-cols-12">
       <div class="col-start-2 col-span-10">
-        <h2 class="text-2xl font-bold mb-4">Session #<%= details.id %>
+        <div class="flex items-center">
+        <a href="/" class="mr-2">Home</a>
+        <span class="mr-2">></span>
+        <a href="/sportSession/<%= sport.dataValues.id %>" class="mr-2"><span><%= sport.dataValues.sportName %></span></a>
+        <span class="mr-2">></span>
+        <a href="/details/<%= details.id %>">Session #<%= details.id %></a>
+      </div>
+        <h2 class="text-2xl font-bold mb-4 my-10">Session #<%= details.id %>
         </h2>
         <div class="mb-4">
           <p class="font-bold">Date & time:</p>
@@ -88,7 +95,7 @@
         </div>
         <a href="/sportSession/<%= details.id %>/edit" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Edit
           Session</a>
-        <a href="/sportSession" onclick="return cancelSession(<%= details.id %>)"
+        <a href="#" onclick="return cancelSession(<%= details.id %>,<%= details.sportId %>)"
           class="inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Cancel Session</a>
       </div>
     </div>

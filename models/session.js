@@ -9,23 +9,28 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Session.belongsTo(models.Sport, {
+        foreignKey: "sportId",
+      });
     }
 
-    static async getAllSessions() {
+    static async getAllSessions(sportId) {
       return await this.findAll({
         where: {
           cancelled: false,
+          sportId,
         },
       });
     }
 
-    static async createSession({ time, place, players, noOfPlayers }) {
+    static async createSession({ time, place, players, noOfPlayers, sportId }) {
       return this.create({
         time,
         place,
         players: players.split(","),
         noOfPlayers,
         cancelled: false,
+        sportId,
       });
     }
 

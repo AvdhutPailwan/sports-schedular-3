@@ -6,13 +6,20 @@
   <meta name="csrf-token" content="<%= csrfToken %>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Session</title>
-  <link rel="stylesheet" href="./css/main/output.css">
+  <link rel="stylesheet" href="/css/main/output.css">
 </head>
 <body>
   <%- include('header', {route: "", content:"sign out"}) %>
   <div class="grid grid-cols-12">
     <div class="col-start-3 col-span-8">
-      <form action="/sportSession" method="POST" class="space-y-4">
+      <div class="flex items-center">
+        <a href="/" class="mr-2">Home</a>
+        <span class="mr-2">></span>
+        <a href="/sportSession/<%= sport.dataValues.id %>" class="mr-2"><span><%= sport.dataValues.sportName %></span></a>
+        <span class="mr-2">></span>
+        <a href="/createSession/<%= sport.dataValues.id %>">Create Session</a>
+      </div>
+      <form action="/sportSession/<%= sport.dataValues.id %>" method="POST" class="space-y-4">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div>
         <label for="time" class="block font-medium">Date and time:</label>
